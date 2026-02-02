@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd leetcode-multi-tracker && npm install && npm run build",
-  "outputDirectory": "leetcode-multi-tracker/.next",
-  "installCommand": "cd leetcode-multi-tracker && npm install",
-  "framework": "nextjs"
-}
