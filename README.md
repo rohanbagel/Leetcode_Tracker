@@ -38,6 +38,7 @@ LeetCode Multi Tracker allows you to monitor any LeetCode user's progress, inclu
 ### Database Schema
 
 The app uses Supabase with the following structure:
+
 - **users**: Stores user statistics with timestamps
 - Tracks: solved problems, acceptance rates, rankings, and difficulty breakdowns
 - Indexed by username for efficient querying
@@ -61,12 +62,14 @@ The app uses Supabase with the following structure:
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd leetcode-multi-tracker
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -74,7 +77,8 @@ bun install
 ```
 
 3. Configure environment variables:
-Create a `.env.local` file in the root directory:
+   Create a `.env.local` file in the root directory:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -82,12 +86,14 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
 4. Set up the database:
-Run the SQL schema in your Supabase project:
+   Run the SQL schema in your Supabase project:
+
 ```bash
 # Execute the contents of supabase-schema.sql in your Supabase SQL Editor
 ```
 
 5. Start the development server:
+
 ```bash
 npm run dev
 # or
@@ -107,12 +113,14 @@ bun dev
 ### Installing on Mobile
 
 **iOS (Safari):**
+
 1. Open the app in Safari
 2. Tap the Share button
 3. Select "Add to Home Screen"
 4. The app will appear as "LCMT" on your home screen
 
 **Android (Chrome):**
+
 1. Open the app in Chrome
 2. Tap the menu (three dots)
 3. Select "Install app" or "Add to Home Screen"
@@ -186,6 +194,7 @@ The app will automatically be deployed with PWA support enabled.
 ### Other Platforms
 
 Ensure your hosting platform supports:
+
 - Node.js 18+
 - Static file serving for PWA assets
 - Environment variable configuration
@@ -196,4 +205,4 @@ MIT
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues or pull requests.
+Contributions are not welcome! Jitna banaya hu utna bas hai.
