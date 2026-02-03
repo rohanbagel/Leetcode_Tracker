@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LCMT Icon Generator</title>
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .icon-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        button:hover {
+            background: #333;
+        }
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>LCMT Icon Generator</h1>
+        <p>Click each "Download" button below to save the icons to your public folder.</p>
+        <p>The icons feature "LCMT" (LeetCode Multi Tracker) with a modern, minimalist design.</p>
+    </div>
+    
+    <div id="icons" class="icon-preview"></div>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function generateIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${size * 0.25}px 'JetBrains Mono', monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Draw LCMT
+            ctx.fillText('LCMT', size / 2, size / 2);
+            
+            // Optional: Add a subtle border/accent
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = size * 0.02;
+            ctx.strokeRect(size * 0.05, size * 0.05, size * 0.9, size * 0.9);
+            
+            return canvas;
+        }
+        
+        function downloadIcon(canvas, size) {
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}x${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        const iconsContainer = document.getElementById('icons');
+        
+        sizes.forEach(size => {
+            const canvas = generateIcon(size);
+            
+            const item = document.createElement('div');
+            item.className = 'icon-item';
+            
+            const previewCanvas = generateIcon(size);
+            previewCanvas.style.width = '128px';
+            previewCanvas.style.height = '128px';
+            
+            const label = document.createElement('p');
+            label.textContent = `${size}x${size}`;
+            label.style.margin = '10px 0 5px 0';
+            label.style.fontWeight = 'bold';
+            
+            const button = document.createElement('button');
+            button.textContent = 'Download';
+            button.onclick = () => downloadIcon(canvas, size);
+            
+            item.appendChild(previewCanvas);
+            item.appendChild(label);
+            item.appendChild(button);
+            iconsContainer.appendChild(item);
+        });
+        
+        // Add download all button
+        const downloadAllBtn = document.createElement('button');
+        downloadAllBtn.textContent = 'Download All Icons';
+        downloadAllBtn.style.fontSize = '16px';
+        downloadAllBtn.style.padding = '15px 30px';
+        downloadAllBtn.onclick = () => {
+            sizes.forEach((size, index) => {
+                setTimeout(() => {
+                    const canvas = generateIcon(size);
+                    downloadIcon(canvas, size);
+                }, index * 300);
+            });
+        };
+        document.body.insertBefore(downloadAllBtn, iconsContainer);
+    </script>
+</body>
+</html>
