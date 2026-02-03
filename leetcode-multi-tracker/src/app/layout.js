@@ -18,12 +18,12 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon-192x192.svg", sizes: "192x192", type: "image/svg+xml" },
+      { url: "/icon-512x512.svg", sizes: "512x512", type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/icon-152x152.png", sizes: "152x152", type: "image/png" },
-      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-152x152.svg", sizes: "152x152", type: "image/svg+xml" },
+      { url: "/icon-192x192.svg", sizes: "192x192", type: "image/svg+xml" },
     ],
   },
 };
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icon-192x192.svg" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="LCMT" />

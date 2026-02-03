@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="152" height="152" viewBox="0 0 152 152" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="152" height="152" fill="#000000"/>
+  
+  <!-- Border -->
+  <rect x="7.6000000000000005" y="7.6000000000000005" width="136.8" height="136.8" 
+        fill="none" stroke="#ffffff" stroke-width="3.04"/>
+  
+  <!-- Text LCMT -->
+  <text x="50%" y="50%" 
+        font-family="monospace, 'JetBrains Mono', 'Courier New'" 
+        font-size="38" 
+        font-weight="bold"
+        fill="#ffffff" 
+        text-anchor="middle" 
+        dominant-baseline="central">LCMT</text>
+</svg>
