@@ -167,25 +167,6 @@ leetcode-multi-tracker/
 - Implements progressive enhancement for offline functionality
 - Follows modern React patterns with hooks and client components where needed
 
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import the project in Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy
-
-The app will automatically be deployed with PWA support enabled.
-
-### Other Platforms
-
-Ensure your hosting platform supports:
-
-- Node.js 18+
-- Static file serving for PWA assets
-- Environment variable configuration
-
 ## Contributing
 
 Contributions are not welcome! Jitna banaya hu utna bas hai.
