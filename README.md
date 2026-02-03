@@ -104,20 +104,7 @@ bun dev
 
 ## PWA Installation
 
-### Generating Icons
-
-1. Open `http://localhost:3000/icon-generator.html` in your browser
-2. Click "Download All Icons" to generate all required icon sizes
-3. Save all downloaded icons to the `public/` directory
-
 ### Installing on Mobile
-
-**iOS (Safari):**
-
-1. Open the app in Safari
-2. Tap the Share button
-3. Select "Add to Home Screen"
-4. The app will appear as "LCMT" on your home screen
 
 **Android (Chrome):**
 
@@ -198,10 +185,6 @@ Ensure your hosting platform supports:
 - Node.js 18+
 - Static file serving for PWA assets
 - Environment variable configuration
-
-## License
-
-MIT
 
 ## Contributing
 
