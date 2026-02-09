@@ -106,6 +106,7 @@ export function UserStats({
   snapshot,
   history = [],
   syncHistory = [],
+  recentSubmissions = [],
   loading,
   syncing,
   onSync,
@@ -231,6 +232,63 @@ export function UserStats({
                 </li>
               ))}
             </ul>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Recent Submissions */}
+      {snapshot?.last_delta > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">
+              Recent Accepted Problems
+            </CardTitle>
+            <p className="text-xs text-muted-foreground mt-1">
+              {snapshot.last_delta} problem{snapshot.last_delta !== 1 ? 's' : ''} solved since last sync
+            </p>
+          </CardHeader>
+          <CardContent>
+            {recentSubmissions.length > 0 ? (
+              <ul className="space-y-3">
+                {recentSubmissions.slice(0, snapshot?.last_delta || 10).map((submission, index) => (
+                  <li key={submission.id || index}>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex justify-between items-start">
+                        <a
+                          href={`https://leetcode.com/problems/${submission.problem_slug}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-sm hover:underline hover:text-primary transition-colors"
+                        >
+                          {submission.problem_title}
+                        </a>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
+                          {formatDate(submission.submitted_at)}
+                        </span>
+                      </div>
+                      <a
+                        href={`https://leetcode.com/problems/${submission.problem_slug}/`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-muted-foreground hover:underline"
+                      >
+                        leetcode.com/problems/{submission.problem_slug}
+                      </a>
+                    </div>
+                    {index < Math.min(recentSubmissions.length, snapshot?.last_delta || 10) - 1 && (
+                      <Separator className="mt-3" />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-sm text-muted-foreground py-4">
+                <p className="mb-2">No submission details available yet.</p>
+                <p className="text-xs">
+                  Sync again to fetch the problem titles for newly solved problems.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

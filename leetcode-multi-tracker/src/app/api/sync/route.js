@@ -32,6 +32,56 @@ const USER_PROFILE_QUERY = `
   }
 `;
 
+// GraphQL query to get recent AC submissions
+const RECENT_SUBMISSIONS_QUERY = `
+  query getRecentAcSubmissions($username: String!, $limit: Int!) {
+    recentAcSubmissionList(username: $username, limit: $limit) {
+      id
+      title
+      titleSlug
+      timestamp
+    }
+  }
+`;
+
+// Fetch recent AC submissions from LeetCode GraphQL
+async function fetchRecentSubmissions(username, limit = 20) {
+  try {
+    const response = await fetch(LEETCODE_GRAPHQL_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Referer": "https://leetcode.com",
+      },
+      body: JSON.stringify({
+        query: RECENT_SUBMISSIONS_QUERY,
+        variables: { username, limit },
+      }),
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`GraphQL request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.errors || !data.data?.recentAcSubmissionList) {
+      console.error("Recent submissions error:", data.errors);
+      return [];
+    }
+
+    return data.data.recentAcSubmissionList.map((item) => ({
+      title: item.title,
+      titleSlug: item.titleSlug,
+      timestamp: parseInt(item.timestamp),
+    }));
+  } catch (error) {
+    console.error("Failed to fetch recent submissions:", error.message);
+    return [];
+  }
+}
+
 // Fetch from LeetCode's official GraphQL API
 async function fetchFromLeetCodeGraphQL(username) {
   try {
@@ -334,6 +384,34 @@ export async function GET(request) {
         total_at_time: currentTotalSolved,
         solved_at: new Date().toISOString(),
       });
+
+      // Fetch recent submissions to get actual problem details
+      console.log(`Fetching recent submissions for ${username} (delta: ${delta})...`);
+      const recentSubmissions = await fetchRecentSubmissions(username, Math.min(delta + 5, 20));
+      
+      if (recentSubmissions.length > 0) {
+        // Get the most recent submissions (up to delta count)
+        const newSubmissions = recentSubmissions.slice(0, delta).map((sub) => ({
+          username: username,
+          problem_title: sub.title,
+          problem_number: parseInt(sub.titleSlug.match(/\d+/) ? sub.titleSlug.match(/\d+/)[0] : 0),
+          problem_slug: sub.titleSlug,
+          difficulty: "", // We'll need to fetch this separately if needed
+          submitted_at: new Date(sub.timestamp * 1000).toISOString(),
+          synced_at: new Date().toISOString(),
+        }));
+
+        // Store the submissions
+        const { error: submissionsError } = await supabaseAdmin
+          .from("recent_submissions")
+          .insert(newSubmissions);
+
+        if (submissionsError) {
+          console.error("Failed to store recent submissions:", submissionsError);
+        } else {
+          console.log(`Stored ${newSubmissions.length} recent submissions for ${username}`);
+        }
+      }
     }
 
     // 10. Store sync history (deduplicate)

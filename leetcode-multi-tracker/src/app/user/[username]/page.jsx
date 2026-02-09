@@ -17,6 +17,7 @@ export default function UserPage() {
   const [snapshot, setSnapshot] = useState(null);
   const [history, setHistory] = useState([]);
   const [syncHistory, setSyncHistory] = useState([]);
+  const [recentSubmissions, setRecentSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState(null);
@@ -90,9 +91,17 @@ export default function UserPage() {
         .order("synced_at", { ascending: false })
         .limit(10);
 
+      const { data: submissionsData } = await supabase
+        .from("recent_submissions")
+        .select("*")
+        .eq("username", username)
+        .order("submitted_at", { ascending: false })
+        .limit(20);
+
       setSnapshot(snapshotData);
       setHistory(historyData || []);
       setSyncHistory(syncHistoryData || []);
+      setRecentSubmissions(submissionsData || []);
     } catch (err) {
       console.error("Fetch error:", err);
       setError("Failed to fetch data");
@@ -252,6 +261,7 @@ export default function UserPage() {
             snapshot={snapshot}
             history={history}
             syncHistory={syncHistory}
+            recentSubmissions={recentSubmissions}
             loading={loading}
             syncing={syncing}
             onSync={triggerSync}
